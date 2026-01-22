@@ -27,6 +27,18 @@
   
   .re-hero-bottom {position:absolute; width:150%; height:450%; bottom:0; background:#000b3d; border-radius:12px; transform:skew(319deg) translateX(-50%); left:50%; z-index:1;}
 
+  /* --- Code-based SVG Logo (الشمال) --- */
+  .logo-container {
+    position: absolute;
+    left: 40px; 
+    top: 25px; 
+    z-index: 10;
+  }
+  .logo-svg {
+    height: 95px; /* نفس حجم الصورة السابقة */
+    width: auto;
+  }
+
   /* --- Menu Navigation --- */
   .menu {
     padding: 0.5rem; 
@@ -53,12 +65,13 @@
   }
   .link:hover { width: 130px; background-color: rgba(255, 255, 255, 0.1); }
   .link:active { transform: scale(0.9); }
+
   .link-icon { width: 28px; height: 28px; flex-shrink: 0; margin-left: 10px; display: flex; align-items: center;}
   .link-icon svg { stroke: #eee; fill: none; width: 28px; height: 28px; }
   .link-title { white-space: nowrap; margin-left: 10px; transform: translateX(100%); transition: transform 0.2s ease-in; font-weight: bold; color: #eee; }
   .link:hover .link-title { transform: translateX(0); }
 
-  /* --- Sparkle Button (Sign In) --- */
+  /* --- Sparkle Button (Sign In - اليمين) --- */
   .sp {
     position: absolute; 
     right: 40px;        
@@ -93,7 +106,7 @@
   }
 
   .sparkle-button:hover { --active: 1; }
-  .sparkle-button:active { scale: 1; }
+  .sparkle-button:active { transform: scale(0.95); }
 
   .text {
     background: linear-gradient(90deg, #fff, #ffe0cc);
@@ -116,8 +129,6 @@
 
   .particle { position: absolute; color: #ff751f; font-weight: bold; animation: float-out 1.5s infinite ease-in-out; }
   .p1 { font-size: 20px; left: 20%; top: -10%; animation-delay: 0s; }
-  .p2 { font-size: 12px; left: 80%; top: 0%; animation-delay: 0.3s; }
-  .p3 { font-size: 28px; left: 50%; top: -20%; animation-delay: 0.6s; }
 
   @keyframes float-out {
     0% { transform: translate(0, 0) scale(0); opacity: 0; }
@@ -174,8 +185,6 @@
   .form .login-button:hover { transform: scale(1.03); }
   .form .login-button:active { transform: scale(0.95); }
 
-  .social-account-container .title { display: block; text-align: center; font-size: 10px; color: #ff751f; }
-  .social-account-container .social-accounts { width: 100%; display: flex; justify-content: center; gap: 15px; margin-top: 5px; }
   .social-button {
     background: #000b3d; border: 2px solid #ff751f; padding: 5px; border-radius: 50%;
     width: 40px; height: 40px; display: grid; place-content: center; transition: all 0.2s ease-in-out; cursor: pointer;
@@ -183,17 +192,30 @@
   .social-button .svg { fill: #ff751f; width: 18px; height: 18px; }
   .social-button:hover { background: #ff751f; }
   .social-button:hover .svg { fill: #000b3d; }
-
-  /* --- إعادة خاصية الضغط للأزرار الاجتماعية --- */
-  .social-button:active {
-    transform: scale(0.9) !important;
-  }
+  .social-button:active { transform: scale(0.85) !important; }
 </style>
 </head>
 <body>
 
 <section class="re-hero">
   <div class="re-hero-main">
+    
+    <div class="logo-container">
+  <svg class="logo-svg" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+    <text x="20" y="80" font-family="Arial, sans-serif" font-weight="900" font-size="55" fill="#ff751f">
+      مـــــــــــــــاوى<tspan fill="#FFFFFF"></tspan> 
+      </text>
+    <text x="73" y="38" font-family="Arial, sans-serif" font-weight="900" font-size="35" fill="#FFFFFF" letter-spacing="2">
+          ء
+        </text>
+
+    <text x="105" y="60" font-family="Arial, sans-serif" font-weight="900" font-size="35" fill="#FFFFFF" letter-spacing="2">
+      MA<tspan fill="#ff751f">'</tspan>WA
+    </text>
+
+  </svg>
+</div>
+
     <nav class="menu">
       <a href="#" class="link">
         <span class="link-icon"><svg viewBox="0 0 256 256"><path d="M213.38,109.62,133.38,36.88a8,8,0,0,0-10.76,0L42.62,109.62A8,8,0,0,0,40,115.54V208a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V115.54A8,8,0,0,0,213.38,109.62Z" stroke-width="16"></path></svg></span>
@@ -205,7 +227,7 @@
       </a>
       <a href="#" class="link">
         <span class="link-icon"><svg viewBox="0 0 256 256"><path d="M45.43,177A96,96,0,1,1,79,210.57L45.85,220a8,8,0,0,1-9.89-9.89l9.47-33.16Z" stroke-width="16"></path><line x1="96" y1="112" x2="160" y2="112" stroke-width="16"></line><line x1="96" y1="144" x2="160" y2="144" stroke-width="16"></line></svg></span>
-        <span class="link-title">Support</span>
+        <span class="link-title">Chat</span>
       </a>
       <a href="#" class="link">
         <span class="link-icon"><svg viewBox="0 0 256 256"><circle cx="128" cy="96" r="64" stroke-width="16"></circle><path d="M31,216a112,112,0,0,1,194,0" stroke-width="16"></path></svg></span>
@@ -225,10 +247,9 @@
       </button>
       <span aria-hidden="true" class="particle-pen">
         <span class="particle p1">z</span>
-        <span class="particle p2">z</span>
-        <span class="particle p3">z</span>
       </span>
     </div>
+
   </div>
   <div class="re-hero-bottom"></div>
 </section>
@@ -243,8 +264,7 @@
       <input value="Sign In" type="submit" class="login-button" />
     </form>
     <div class="social-account-container">
-      <span class="title">Or Sign in with</span>
-      <div class="social-accounts">
+      <div class="social-accounts" style="display:flex; justify-content:center; gap:15px; margin-top:20px;">
         <button class="social-button" type="button">
           <svg viewBox="0 0 488 512" class="svg"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
         </button>
@@ -262,16 +282,8 @@
 <script>
   const modal = document.getElementById('loginModal');
   const openBtn = document.getElementById('openModalBtn');
-
-  openBtn.addEventListener('click', () => {
-    modal.style.display = 'flex';
-  });
-
-  window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+  openBtn.onclick = () => { modal.style.display = 'flex'; };
+  window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
 </script>
 
 </body>
