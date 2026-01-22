@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MA'WA</title>
+<style>
+  /* --- Base Reset --- */
+  * {margin:0; padding:0; box-sizing:border-box;}
+  body {background:#ffffff; padding:40px; font-family: Arial, sans-serif;}
+
+  /* --- Hero Section --- */
+  .re-hero {width:100%; height:645px; position:relative; overflow:hidden; border-radius:12px;}
+  
+  .re-hero-main {
+    width:100%; 
+    height:92%; 
+    background:#000b3d; 
+    border-radius:12px; 
+    position:relative; 
+    z-index:2; 
+    padding:20px 40px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
+  }
+  
+  .re-hero-bottom {position:absolute; width:150%; height:450%; bottom:0; background:#000b3d; border-radius:12px; transform:skew(319deg) translateX(-50%); left:50%; z-index:1;}
+
+  /* --- Menu Navigation --- */
+  .menu {
+    padding: 0.5rem; 
+    background-color: #ff751f; 
+    display: flex; 
+    justify-content: center; 
+    border-radius: 15px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+    gap: 10px; 
+    transform: translateY(15px);
+    z-index: 5;
+  }
+  
+  .link {
+    display: inline-flex; 
+    align-items: center; 
+    width: 70px; 
+    height: 50px; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    transition: width 0.2s ease-in, transform 0.1s ease; 
+    text-decoration: none; 
+    color: #eee;
+  }
+  .link:hover { width: 130px; background-color: rgba(255, 255, 255, 0.1); }
+  .link:active { transform: scale(0.9); }
+  .link-icon { width: 28px; height: 28px; flex-shrink: 0; margin-left: 10px; display: flex; align-items: center;}
+  .link-icon svg { stroke: #eee; fill: none; width: 28px; height: 28px; }
+  .link-title { white-space: nowrap; margin-left: 10px; transform: translateX(100%); transition: transform 0.2s ease-in; font-weight: bold; color: #eee; }
+  .link:hover .link-title { transform: translateX(0); }
+
+  /* --- Sparkle Button (Sign In) --- */
+  .sp {
+    position: absolute; 
+    right: 40px;        
+    top: 40px; 
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .sparkle-button {
+    --active: 0;
+    --bg: radial-gradient(40% 50% at center 100%, hsl(24 calc(var(--active) * 97%) 72% / var(--active)), transparent),
+         radial-gradient(80% 100% at center 120%, hsl(24 calc(var(--active) * 97%) 70% / var(--active)), transparent),
+         hsl(24 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%));
+    background: var(--bg);
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: 0;
+    cursor: pointer;
+    padding: 1em 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    white-space: nowrap;
+    border-radius: 100px;
+    position: relative;
+    transition: .3s;
+    box-shadow: 0 0 calc(var(--active) * 3em) calc(var(--active) * 1em) hsl(24 97% 61% / 0.75),
+                0 0.05em 0 0 hsl(24 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
+                0 -0.05em 0 0 hsl(24 calc(var(--active) * 97%) calc(var(--active) * 60%)) inset;
+    scale: calc(1 + (var(--active) * 0.1));
+  }
+
+  .sparkle-button:hover { --active: 1; }
+  .sparkle-button:active { scale: 1; }
+
+  .text {
+    background: linear-gradient(90deg, #fff, #ffe0cc);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+  }
+
+  .sparkle { width: 1.2em; height: 1.2em; }
+
+  /* --- تأثير الماسة الدوارة --- */
+  .spark {
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    rotate: 0deg;
+    overflow: hidden;
+    mask: linear-gradient(white, transparent 50%);
+  }
+
+  .particle { position: absolute; color: #ff751f; font-weight: bold; animation: float-out 1.5s infinite ease-in-out; }
+  .p1 { font-size: 20px; left: 20%; top: -10%; animation-delay: 0s; }
+  .p2 { font-size: 12px; left: 80%; top: 0%; animation-delay: 0.3s; }
+  .p3 { font-size: 28px; left: 50%; top: -20%; animation-delay: 0.6s; }
+
+  @keyframes float-out {
+    0% { transform: translate(0, 0) scale(0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translate(30px, -60px) scale(1.5); opacity: 0; }
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0.1em;
+    background: var(--bg);
+    border-radius: 100px;
+    z-index: -1;
+  }
+
+  /* --- Modal Overlay --- */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+  }
+
+  .container {
+    max-width: 350px;
+    background: #000b3d;
+    border-radius: 40px;
+    padding: 25px 35px;
+    border: 5px solid #ff751f;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 30px 30px -20px;
+    margin: 20px;
+  }
+
+  .heading { text-align: center; font-weight: 900; font-size: 30px; color: #ff751f; }
+  .form { margin-top: 20px; }
+  .form .input {
+    width: 100%; background: #0b164a; border: none; padding: 15px 20px;
+    border-radius: 20px; margin-top: 15px; color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 10px -5px;
+  }
+  .form .input:focus { outline: none; border: 2px solid #ff751f; }
+  .form .forgot-password a { font-size: 11px; color: #ff751f; text-decoration: none; display: block; margin-top: 10px; }
+  .form .login-button {
+    display: block; width: 100%; font-weight: bold; border: none;
+    background: linear-gradient(45deg, #ff751f 0%, #ff914d 100%);
+    color: #000b3d; padding: 15px; margin: 20px auto; border-radius: 20px;
+    cursor: pointer; transition: all 0.2s ease-in-out;
+  }
+  .form .login-button:hover { transform: scale(1.03); }
+  .form .login-button:active { transform: scale(0.95); }
+
+  .social-account-container .title { display: block; text-align: center; font-size: 10px; color: #ff751f; }
+  .social-account-container .social-accounts { width: 100%; display: flex; justify-content: center; gap: 15px; margin-top: 5px; }
+  .social-button {
+    background: #000b3d; border: 2px solid #ff751f; padding: 5px; border-radius: 50%;
+    width: 40px; height: 40px; display: grid; place-content: center; transition: all 0.2s ease-in-out; cursor: pointer;
+  }
+  .social-button .svg { fill: #ff751f; width: 18px; height: 18px; }
+  .social-button:hover { background: #ff751f; }
+  .social-button:hover .svg { fill: #000b3d; }
+
+  /* --- إعادة خاصية الضغط للأزرار الاجتماعية --- */
+  .social-button:active {
+    transform: scale(0.9) !important;
+  }
+</style>
+</head>
+<body>
+
+<section class="re-hero">
+  <div class="re-hero-main">
+    <nav class="menu">
+      <a href="#" class="link">
+        <span class="link-icon"><svg viewBox="0 0 256 256"><path d="M213.38,109.62,133.38,36.88a8,8,0,0,0-10.76,0L42.62,109.62A8,8,0,0,0,40,115.54V208a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V115.54A8,8,0,0,0,213.38,109.62Z" stroke-width="16"></path></svg></span>
+        <span class="link-title">Home</span>
+      </a>
+      <a href="#" class="link">
+        <span class="link-icon"><svg viewBox="0 0 256 256"><polyline points="76.2 132.2 152.2 40.2 216 40 215.8 103.8 123.8 179.8" stroke-width="16"></polyline><line x1="100" y1="156" x2="160" y2="96" stroke-width="16"></line><path d="M82.14,197.46,52.2,227.4a8,8,0,0,1-11.31,0L28.6,215.11a8,8,0,0,1,0-11.31l29.94-29.94a8,8,0,0,0,0-11.31L37.66,141.66a8,8,0,0,1,0-11.31l12.69-12.69a8,8,0,0,1,11.31,0l76.69,76.69a8,8,0,0,1,0,11.31l-12.69,12.69a8,8,0,0,1-11.31,0L93.46,197.46A8,8,0,0,0,82.14,197.46Z" stroke-width="16"></path></svg></span>
+        <span class="link-title">Games</span>
+      </a>
+      <a href="#" class="link">
+        <span class="link-icon"><svg viewBox="0 0 256 256"><path d="M45.43,177A96,96,0,1,1,79,210.57L45.85,220a8,8,0,0,1-9.89-9.89l9.47-33.16Z" stroke-width="16"></path><line x1="96" y1="112" x2="160" y2="112" stroke-width="16"></line><line x1="96" y1="144" x2="160" y2="144" stroke-width="16"></line></svg></span>
+        <span class="link-title">Support</span>
+      </a>
+      <a href="#" class="link">
+        <span class="link-icon"><svg viewBox="0 0 256 256"><circle cx="128" cy="96" r="64" stroke-width="16"></circle><path d="M31,216a112,112,0,0,1,194,0" stroke-width="16"></path></svg></span>
+        <span class="link-title">Profile</span>
+      </a>
+    </nav>
+
+    <div class="sp">
+      <button class="sparkle-button" id="openModalBtn">
+        <span class="spark"></span>
+        <span class="backdrop"></span>
+        <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#eee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M15 6h.01M18 9h.01M12 4h.01" stroke="#eee" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+        <span class="text">Sign In</span>
+      </button>
+      <span aria-hidden="true" class="particle-pen">
+        <span class="particle p1">z</span>
+        <span class="particle p2">z</span>
+        <span class="particle p3">z</span>
+      </span>
+    </div>
+  </div>
+  <div class="re-hero-bottom"></div>
+</section>
+
+<div class="modal-overlay" id="loginModal">
+  <div class="container">
+    <div class="heading">Sign In</div>
+    <form class="form">
+      <input placeholder="E-mail" type="email" class="input" required />
+      <input placeholder="Password" type="password" class="input" required />
+      <span class="forgot-password"><a href="#">Forgot Password ?</a></span>
+      <input value="Sign In" type="submit" class="login-button" />
+    </form>
+    <div class="social-account-container">
+      <span class="title">Or Sign in with</span>
+      <div class="social-accounts">
+        <button class="social-button" type="button">
+          <svg viewBox="0 0 488 512" class="svg"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
+        </button>
+        <button class="social-button" type="button">
+          <svg viewBox="0 0 384 512" class="svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
+        </button>
+        <button class="social-button" type="button">
+          <svg viewBox="0 0 320 512" class="svg"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('loginModal');
+  const openBtn = document.getElementById('openModalBtn');
+
+  openBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
